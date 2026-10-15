@@ -1,0 +1,24 @@
+#!/bin/bash
+set -euo pipefail
+
+if [[ $# -lt 1 ]]; then
+  echo "Usage: yt-tv <YouTube URL>"
+  exit 2
+fi
+
+URL="$1"
+OUT="$HOME/Movies/YouTube"
+mkdir -p "$OUT"
+
+exec yt-dlp \
+  --no-playlist \
+  --format "bv*+ba/b" \
+  --merge-output-format mp4 \
+  --remux-video mp4 \
+  --embed-metadata \
+  --embed-thumbnail \
+  --convert-thumbnails jpg \
+  --write-thumbnail \
+  --windows-filenames \
+  --output "$OUT/%(title)s.%(ext)s" \
+  "$URL"
